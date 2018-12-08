@@ -16,4 +16,7 @@ From this I found it can be possible to use GA as a optimizer for some hyperpara
 Actually I get into machine learing with MNIST problem.  
 The data structure of MNIST is very typical. We transform the figures or number 0 to 9 writed by real people into matrices with entry equals 0 or 1, which means the black and white area of the figures.  
 
-In the folder ML I tried using API from tensorflow and sklearning
+In the folder ML I tried using API from tensorflow(file named "mnist_gen.ipynb") and sklearn(file named "Untitled.ipynb") to do regression about MNIST problem.  
+
+## The next step
+Getting into using CNN to solve MNIST first and then try to use GA to do hyperparameter tuning.
