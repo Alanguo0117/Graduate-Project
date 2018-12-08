@@ -10,5 +10,5 @@ From this I found it can be possible to use GA as a optimizer for some hyperpara
 2. GA allows us search optimal solution when the number of parameters is very large.  
 3. We do not need the objective function convex or concave, using GA we do not need to find gradients or some derivative methods.    
 4. GA is good at the problem with multi local optima.
-### The code of this example is in GA folder named as population.ipynb, other files are just reference PDFs and some testing or abandoned code.  
+#### The code of this example is in GA folder named as "population.ipynb", other files are just reference PDFs and some testing or abandoned code.  
 
