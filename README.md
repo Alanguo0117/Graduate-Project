@@ -1,4 +1,22 @@
 # Graduate-Project
-This is for the preparation for AM graduate  
-Using genetic algorithm to find optimal CNN architecture  
-Advisor : Shawfeng Dong UCSC AMS
+This is for the preparation for AM graduate.  
+Using genetic algorithm to find optimal CNN architecture.   
+## About GA  
+
+For now, I did a simple example with genetic algorithm finding a maximum value of a linear function "y=w1x1+w2x2+w3x3+w4x4+w5x5+w6x6". Given a set of X=[x1,x2,x3,x4,x5,x6], find the parameter wi can make the value of function go maximum.   
+We set different W=[w1,w2,w3,w4,w5,w6] as the population, and assuming an individaul in the set has only one chromosome with 6 genes. After crossover and mutation for five generations the fitness function goes bigger and bigger. It covergence to a certain value. This shows the method working good.  
+From this I found it can be possible to use GA as a optimizer for some hyperparameter problem. GA has the following advantage:  
+1. GA actually starts at searching all over the population, not start at any single point, we can aviod missing some critical points.  
+2. GA allows us search optimal solution when the number of parameters is very large.  
+3. We do not need the objective function convex or concave, using GA we do not need to find gradients or some derivative methods.    
+4. GA is good at the problem with multi local optima.
+### The code of this example is in GA folder named as "population.ipynb", other files are just reference PDFs and some testing or abandoned code.  
+
+## About MNIST
+Actually I get into machine learing with MNIST problem.  
+The data structure of MNIST is very typical. We transform the figures or number 0 to 9 writed by real people into matrices with entry equals 0 or 1, which means the black and white area of the figures.  
+
+In the folder ML I tried using API from tensorflow(file named "mnist_gen.ipynb") and sklearn(file named "Untitled.ipynb") to do regression about MNIST problem.  
+
+## The next step
+Getting into using CNN to solve MNIST first and then try to use GA to do hyperparameter tuning.
