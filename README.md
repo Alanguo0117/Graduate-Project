@@ -1,6 +1,6 @@
 # Graduate-Project
 This is for the preparation for AM graduate.  
-Using genetic algorithm(GA) to find optimal CNN architecture.   
+Using genetic algorithm(GA) to find optimal convolution neural network(CNN) architecture.   
 ## About GA  
 
 For now, I did a simple example with genetic algorithm finding a maximum value of a linear function "y=w1x1+w2x2+w3x3+w4x4+w5x5+w6x6". Given a set of X=[x1,x2,x3,x4,x5,x6], find the parameter wi can make the value of function go maximum.   
