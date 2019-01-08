@@ -1,6 +1,6 @@
 # Graduate-Project
 This is for the preparation for AM graduate.  
-Using genetic algorithm to find optimal CNN architecture.   
+Using genetic algorithm(GA) to find optimal CNN architecture.   
 ## About GA  
 
 For now, I did a simple example with genetic algorithm finding a maximum value of a linear function "y=w1x1+w2x2+w3x3+w4x4+w5x5+w6x6". Given a set of X=[x1,x2,x3,x4,x5,x6], find the parameter wi can make the value of function go maximum.   
@@ -14,9 +14,9 @@ From this I found it can be possible to use GA as a optimizer for some hyperpara
 
 ## About MNIST
 Actually I get into machine learing with MNIST problem.  
-The data structure of MNIST is very typical. We transform the figures or number 0 to 9 writed by real people into matrices with entry equals 0 or 1, which means the black and white area of the figures.  
+The data structure of MNIST is very typical. We transform the hand-written figures of number 0 to 9 writed by human into matrices with entry equals 0 or 1, which means the black and white area of the figures.  
 
-In the folder ML I tried using API from tensorflow(file named "mnist_gen.ipynb") and sklearn(file named "Untitled.ipynb") to do regression about MNIST problem.  
+In the folder ML I tried using API from tensorflow(file named "mnist_gen.ipynb") and sklearn(file named "Untitled.ipynb") to do regression for MNIST problem.  
 
 ## The next step
 Getting into using CNN to solve MNIST first and then try to use GA to do hyperparameter tuning.
@@ -26,4 +26,4 @@ After learning CNN algorithm, I implement in MNIST problem. In this example, I a
 This CNN is mainly using Keras package and using matplotlib to generate plots. The accuracy and convergence rate is good.  
 The hyperparameters in this problem is mainly the dimension and numbers of channels of filters, and we can also take the dropout rate as a hyperparameter. I am using (3x3x32), (3x3x64), and a 2x2 max pooling layer according some well-built neural network by some data scientist. The purpose of my project is using GA to tune CNN architecture. So for the next step, we am going to focus on how to build a effective fitness function for GA. I am considering to use a fitness function in the form of:
 ###                     fitness = A x training_accuracy + B x test_accuracy - C x training_loss - D x test_loss 
-A,B,C,D are all positive numbers, and they are taken as the hyperparamter of GA for tuning. Then we assume individuals in this scenario have one chromosome s.t. Chro[fliter1_dimension, filter2_dimension, poolinglayer_dimension, dropout_rate]. Chro is generate randomly in a given interval to make sure convergence. I will see what can I do in this week.
+A,B,C,D are all positive numbers, and they are taken as the hyperparamter of GA for tuning. Then we assume individuals in this scenario have one chromosome s.t. Chro[fliter1_dimension, filter2_dimension, poolinglayer_dimension, dropout_rate], so this chromosome literally has 9(3+3+1+2) genes. Chro is generate randomly in a given interval to make sure convergence. I'll see what can I do in this week.
