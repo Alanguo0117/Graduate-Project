@@ -67,8 +67,8 @@ This model is inspired by LeNet-5, which is developed by Yann Lecun. The first h
 $$Conv(A)_{ij} = \displaystyle\sum_{p=1}^{m}  \displaystyle\sum_{q=1}^{m} {A_R}_{pq}F_{pq}$$Figure 4 shows how the convolution operator works. In this case, the first hidden layer provides us two hyperparameters which are the size of filter(or kernel) and the number of filters. It worth to notice that we actually apply same padding to the input matrix. For MNIST dataset, the inputs of data $28 \times 28$ pixel image, this is of a very small dimension. We basically don not want the image shrink when processing Conv layers, so we just add zero entries around the input matrix to get the output matrix ad the same dimension after Conv layers, and this is what we do for same padding. Additionally, if we do not  use any padding, the entries near the boundaries of input matrix will become less import.\\
 \begin{figure}
 \begin{center}
-\includegraphics[width =5.7in]{filter.png}
-\caption{How CNN filter works}
+\includegraphics[width =4.7in]{filter.png}
+\caption{How CNN filter and max pooling layer works}
 \end{center}
 \label{fig:pic4}
 \end{figure}
@@ -81,8 +81,33 @@ ReLU function helps us map the output of previous layer to the range of 0 to 1. 
   \item \textbf{Better gradient propagation}: ReLU can effectively reduce vanishing gradient problem. For example, the gradient of sigmoid activate function vanishes when the absolute value of input goes very large.
   \item \textbf{Easy to compute}: ReLU save a lot of computational resource when doing propagation.
  \end{itemize}
-For the second hidden unit, it is totally the same with the first one, and also gives us another two hyperparameters which are the size of the filers and the number of filters.
-  
+For the second hidden unit, it is totally the same with the first one, and also gives us another two hyperparameters which are the size of the filers and the number of filters. This hidden unit is following with a max pooling layer. The max pooling layer works similarly as Conv layers, the Conv layers calculate the summation of the productions of each pair of entries in input matrix and filter matrix. The max pooling layer just selects the max entry of each sub-matrix in the same size as the max pooling kernel. In Figure 4, max pooling layer just select the max values in those yellow boxes. The purpose that we add pooling layers in our neural network is the pooling layers can reduce the size of the representations and keep the significant values which accelerate our computation. Notice that the max pooling layer also provide us a new hyperparameter which is the size of max pooling kernel. The next layer of our model is a dropout layer. This layer works in a quite simple way but it will help our model get better convergence. The dropout layer randomly drop some hidden units in our neural network, in other words, we ignore some neurons in forward or backward propagation. By doing this we can effectively prevent over-fitting, and this dropout layer gives us a hyperparameter of the random drop rate. Until this part, we finished the feature learning of our model, and the next thing we need to do is the classification part, which enable us to get the relationship between images and labels. Firstly we need to apply a fully connected layer to the output from previous convolutional layers. Before doing this, we need to flatten the output matrices from Conv layers. This means we reshape tensor into vector in order to proceed the fully connected layer. A fully connected layer is an linear operation in which each input is connected to each output by a weight and a bias. Suppose $a^{[l-1]}$ is the  input vector of the $l-1^{th}$ layer, $W^{[l]}_i$ is the $i^{th}$ weight vector in the next $l^{th}$ layer, and $b_i$ is the $i^{th}$ bias, then we will have $a^{[l]}_i$ which is the $i^{th}$ output of $l^{th}$ dense layer(fully connected layer is also called dense layer) is:
+$$a^{[l]}_i = ReLU(W^{[l]}_i a^{[l-1]} + b_i)$$
+$ReLU$ is the activation function we use before. This dense layer also provides a hyperparameter of the output vector size. This means the number of the weight vector multiplied by the flattened input vector. The first fully connected layer is also followed by a dropout layer that deactivate some neurons to improve the convergence a prevent over-fitting which gives us a dropout rate as another hyperparameter. \\
+~\\
+The final layer of CNN model is also a dense layer, but different from the previous dense layer, we are applying another activation function which is Softmax Function. The reason that we use Softmax function is because we are doing multiple classification. MNIST dataset has ten categories of labels for human-written images, so the out put of our CNN model should give us corresponding outputs. The activation function such as ReLU and sigmoid can only do binary classification, and that is why we cannot use them in the final layer to generate outputs. Suppose $z^{[l]}_i$ is the value after linear operation $W^{[l]}_i a^{[l-1]} + b_i$ for the $l^{th}$ dense layer. The mathematical equation of Softmax function is:
+$$Softmax(z^{[l]}_i) = \frac{e^{z^{[l]}_i}}{\displaystyle \sum_{i=1}^me^{z^{[l]}_i}}$$
+where $m$ is the number of categories, in our case $m=10$. The Softmax activation function gives us output of multiple catrgories. From the equation above, we will get an output of probabilities of each label, and then the Softmax layer return us a corresponding label. For instance, in the MNIST problem, if the probability of number $1$ is the maximum value among all probabilities it will return the label as $1$. By using Softmax function, we got the final output of forward propagation. \\
+~\\
+For deep neural network, the choice of loss function and optimizer can significantly affect the performance of the model. When we use Softmax as activation function, the categorical Cross-Entropy loss can be a good choice for
+our regression. The reason we choose categorical Cross-Entropy loss is we are doing a multi-class classification, and categorical Cross-Entropy loss cooperates with Softmax very well. The formula of categorical Cross-Entropy loss in our case is:
+$$CELoss = -\displaystyle\sum_i^ct_ilog(Softmax(s)_i)$$
+$$t_{i=p} = 1, t_{i \neq p} = 0$$
+In this formula, $c$ is the number of classes(labels), $t$ is a $c$ dimension vector of $0s$ and $1s$. For the output is  one-hot, only when the $p^{th}$ class keeps its term, the $p^{th}$ entry of $t$ equals to $1$, otherwise the entries of $t$ is zero and $s$ is the output of CNN model. In our case, the output is a vector with probabilities so the formula can be written as:
+$$CELoss = -\displaystyle\sum_i^n \hat{y_{i1}}log(y_{i1})+\hat{y_{i2}}log(y_{i2})+\cdots+\hat{y_{ic}}log(y_{ic})$$
+where $n$ is the number of samples and $c$ is the number of categories. The optimizer we apply is ADADELTA method. We actually do not tuning our learning rate, therefore we use ADADELTA since it has a robust performance even if using the default learning rate in most cases. It is also worth to mention that we are using mini batch gradient descent method for training, this will help us get a better and faster convergence. Hence we get another hyperparameter of batch size.\\
+~\\
+Until now, our model basically needs to optimize nine hyperparameters, they are:
+\begin{itemize}
+\item The size of filters for the first and second Conv layers
+\item The number of filters for the first and second Conv layers
+\item The dropout rates for the two dropout layers
+\item The dimension for the two dense layers
+\item The mini batch size
+\end{itemize}
+Notice that we do not take the number of epoch as a hyperparameter because there will be a great difference between different epoch, this hyperparameter will vanish the influence of other hyperparameter. In the second part, we will discuss how does genetic algorithm work with hyperparameter optimization.
+
+
 
 \subsection{Genetic Algorithm}
 There are many advantages of using genetic algorithm for hyperparameter optimization:
