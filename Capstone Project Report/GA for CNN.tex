@@ -101,15 +101,29 @@ Until now, our model basically needs to optimize nine hyperparameters, they are:
 \begin{itemize}
 \item The size of filters for the first and second Conv layers
 \item The number of filters for the first and second Conv layers
+\item The size of max pooling layer
 \item The dropout rates for the two dropout layers
-\item The dimension for the two dense layers
-\item The mini batch size
+\item The dimension for the first fully connected layer
 \end{itemize}
-Notice that we do not take the number of epoch as a hyperparameter because there will be a great difference between different epoch, this hyperparameter will vanish the influence of other hyperparameter. In the second part, we will discuss how does genetic algorithm work with hyperparameter optimization.
+Notice that we do not take the number of epoch and mini batch size as  hyperparametes because there will be a great difference between different epoch and mini batch size, these two hyperparameters will vanish the influence of other hyperparameters. \\
+In the second part, we will discuss how does genetic algorithm work with hyperparameter optimization.\\
 
 
 
 \subsection{Genetic Algorithm}
+The genetic algorithm of our code works as the outer part of our model. We use genetic algorithm for selecting optimal hyperparameter set for our inner CNN model. Genetic algorithm is inspired by the theory of natural selection by Darwin. Individuals with the better genes will survive in the process in natural selection, the individuals with better genes will have better fitness, therefore they have more chance to reproduce the next generation. As a result, the individuals in next generation will inhere competitive genes from their parents. The population selects better individual by this way. In our genetic algorithm, we consider a set of hyperparameter for CNN as a individual, hence one hyperparameter represents a gene on the individual's chromosome(We assume one individual only has one chromosome). The first step of our algorithm is selecting the candidates with higher fitness from our initial generation, and the selected individuals make up the mating pool for reproducing the next generation. In the next step, the individuals in the mating pool start a mating process to generate the offspring set. The mating process basically follows the same rules as natural creatures: the parents' chromosomes crossover with each other and mutation take place on the new chromosomes. Figure 5 shows the steps for our genetic algorithm. Then we will explain how every step works with detail.\\
+\begin{figure}
+\begin{center}
+\includegraphics[width =4.7in]{GA.png}
+\caption{The process of genetic algorithm}
+\end{center}
+\label{fig:pic5}
+\end{figure}
+\subsubsection{Generating initial population}
+
+\subsubsection{Calculating fitness \& selecting parents}
+
+\subsubsection{Mating: cross over and mutation}
 There are many advantages of using genetic algorithm for hyperparameter optimization:
 \section{Result}
 
