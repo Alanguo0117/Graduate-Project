@@ -120,7 +120,7 @@ The genetic algorithm of our code works as the outer part of our model. We use g
 \label{fig:pic5}
 \end{figure}
 \subsubsection{Generating initial population}
-
+The purpose of this project is automatically search a optimal hyperparameter set for our CNN model. To begin with, we randomly generate eight sets of hyperparameter, so that we can get an initial  population matrix $P$ , and the dimension of matrix $P$ is $8 \times 8$ since each set contains eight hyperparameters. The thing we need to notice is that we cannot choose the hyperparameter arbitrarily, since the algorihtm of CNN model also follows some rules. For example, the number of filter in Conv layers should be positive integer, the size of filter can not exceed $28$ because the dimension of our input is $28 \times 28$, and the dropout rate should be float number between $0$ to $1$. To ensure the CNN model run correctly, we design a initialize distribution for generating the initial population as following:
 \subsubsection{Calculating fitness \& selecting parents}
 
 \subsubsection{Mating: cross over and mutation}
