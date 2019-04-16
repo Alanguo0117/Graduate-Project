@@ -120,11 +120,64 @@ The genetic algorithm of our code works as the outer part of our model. We use g
 \label{fig:pic5}
 \end{figure}
 \subsubsection{Generating initial population}
-The purpose of this project is automatically search a optimal hyperparameter set for our CNN model. To begin with, we randomly generate eight sets of hyperparameter, so that we can get an initial  population matrix $P$ , and the dimension of matrix $P$ is $8 \times 8$ since each set contains eight hyperparameters. The thing we need to notice is that we cannot choose the hyperparameter arbitrarily, since the algorihtm of CNN model also follows some rules. For example, the number of filter in Conv layers should be positive integer, the size of filter can not exceed $28$ because the dimension of our input is $28 \times 28$, and the dropout rate should be float number between $0$ to $1$. To ensure the CNN model run correctly, we design a initialize distribution for generating the initial population as following:
-\subsubsection{Calculating fitness \& selecting parents}
+The purpose of this project is automatically search a optimal hyperparameter set for our CNN model. To begin with, we randomly generate eight sets of hyperparameter, so that we can get an initial  population matrix $P$ , and the dimension of matrix $P$ is $8 \times 8$ since each set contains eight hyperparameters. In the initial population matrix, the column size indicates the number of candidates in the first generation, and the row size indicates the number of genes on one individual which represents the number of hyperparameters. The thing we need to notice is that we cannot choose the hyperparameter arbitrarily, since the algorihtm of CNN model also follows some rules. For example, the number of filter in Conv layers should be positive integer, the size of filter can not exceed $28$ because the dimension of our input is $28 \times 28$, and the dropout rate should be float number between $0$ to $1$. To ensure the CNN model run correctly, we design a initialize distribution for generating the initial population as Table 1. The process of generating the initial is technically easy, we use numpy build-in function random to generate the population. We choose the distribution of hyperparameters that contains the empirical optimal hyperparameter set. This is for checking whether genetic algorithm can choose the hyperparameter combination which approaches the empirical optimized hyperparameter set.
+\begin{table}
+\caption{Distribution of Initial Hyperparameters}
+\centering
+\begin{tabular}{l r}
+\hline\hline 
+Hyperparameter & Value \\ [0.5ex]
+\hline
+Size of Filter 1 & 2-10 int \\
+Number of Filter 1 & 2-64 int \\
+Size of Filter 2 & 2-10 int \\
+Number of Filter 2 & 32-128 int \\
+Size of Max Pooling & 2-10 int \\
+Size of Dense Layer & 63-256 int \\
+Dropout Rate 1 & 10\%-90\% \\
+Dropout Rate2 & 10\%-90\% \\
+\hline
+\end{tabular}
+\label{table:hpara}
+\end{table}
 
-\subsubsection{Mating: cross over and mutation}
+
+
+\subsubsection{Calculating fitness \& selecting parents}
+Once we get our initial population we need to select the competitive candidate for generating the next generation. We should know that the individuals with higher fitness which means the genes of competitive candidates have better performance. In this case, the hyperparamter set with better performance will be selected as parents of the next generation. We evaluate the performance of candidates in two aspects. The first criterion is the accuracy of the test dataset. For judging the performance of a machine learning project, we usually consider the bias and variance of the model. The accuracy of test set can reflect both bias and variance, when the test accuracy is high, we can say both bias and variance is low which means our model is workable and robust. The second aspect is the value of the loss function. As we all know, in an optimization problem, our aim is to minimize the value of loss function(or cost function). We are using  categorical Cross-Entropy loss function as we discuss before. Therefore if we can get smaller value of our categorical Cross-Entropy loss function, we can say the performance of the model is better. In the genetic algorithm we need to design a function which can quantify the level of fitness into a real number. This function is known as the fitness function for genetic algorithm. In this CNN hyperparameter optimization model, we basically want the input of fitness function is one tuple of hyperparameters, and the output is the fitness value. In genetic algorithm, we always want to maximum the fitness value, because the bigger fitness value means the individual is fitter and more competitive. Using accuracy of test set and value of loss function, we define the fitness function as following:
+$$Fitness(V_{hyperparemeter}) =  CNN_{acc} - CNN_{loss}$$
+Where $V_{hyperparemeter}$ is a vector of one set of hyperparameters.  $CNN_{acc}$ is the accuracy of test set and $ CNN_{loss}$ is the value of loss function. It is obvious that a set of hyperparameter with better performance returns a larger fitness function value. Hence, for the selecting process, we need to set a number $m$ which is the number of parents we want to select, and then we rank the row vectors of the initial population with respect to the fitness value. Finally we choose the first $m$ rows as our parents pool.\\
+\subsubsection{Mating: crossover and mutation}
+For genetic algorithm, the most import part is mating. This is the process that we use parents pool to generate the new population. In this mating process we applied two genetic operators: crossover and mutation. These two operators typically enable the offspring to share many of the characteristics from their parents. Next, we will explain how crossover and mutation works.
+\paragraph{Crossover}
+In genetic algorithm, crossover can be also called as recombination. This means crossover is used to combine the genetic information of two parents. This operator is inspired by the crossover process which happens during sexual reproduction in biology. The first step in crossover is to designate a crossover point, and then we swap the partial chromosome in the same side of the crossover point. By doing this, the two offspring will carry the genetic information from both of the parents. In general, there are many ways to design the pattern of crossover, the number and the position of crossover points can be variable. In our cases, we do not randomize the number and position of crossover points. We just pick the middle point of each chromosome and exchange the same side of the chromosome, because we only have eight hyperparameters which means the chromosome has eight genes, therefore the middle point of chromosome is enough for the recombination. Figure 6 shows the crossover of our genetic algorithm.\\
+\begin{figure}
+\begin{center}
+\includegraphics[width =7.2in]{crossover.png}
+\caption{The process of crossover, the \textbf{A} to \textbf{H} genes corresponds to our eight hyperparameters.}
+\end{center}
+\label{fig:pic6}
+\end{figure}
+\paragraph{Mutation}
+After crossover process, it is necessary to add some genetic diversity to the offspring, so we apply mutation after crossover. Mutation is also an important genetic operator which is analogous to biological mutation. Notice that we used random method for generating our initial population, so it is possible that the initial points are far away from our optimal points. If we only use crossover to generate next generation, we can hardly get a good convergence or we have a terrible convergence rate. Adding some diversity to genes can help us avoid this problem. In our model, for each offspring, we randomly pick one gene and apply a small perturbation to the value of gene, which means we slightly change the value of one hyperparameter for the new-generated hyperparameter set. One thing that is worth mentioning is we should choose the rate of mutation low, because the search will turn to a primitive random if the mutation happens too frequently. Figure 7 shows how mutation works.
+\begin{figure}
+\begin{center}
+\includegraphics[width =7.2in]{mutation.png}
+\caption{The process of mutation, \textbf{CNEW} is gene \textbf{C} after mutation and \textbf{dnew} is gene \textbf{d} after mutation.}
+\end{center}
+\label{fig:pic6}
+\end{figure}
+\subsubsection{Why genetic algorithm}
 There are many advantages of using genetic algorithm for hyperparameter optimization:
+\begin{itemize}
+\item For multiple local optima cases, using genetic algorithm prevents us trapping in only one solution. In our case, it is possible to have multiple optimal hyperparameter sets.
+\item When objective function is not derivable. For some cases the objective function is not smooth or we cannot get the formulated expression of our objective function. In our case, the outputs of CNN model is not derivable.
+\item GA enables us for multiple types optimization, for CNN the hyperparameters are in multi-type.
+\item The iterations of GA is independent with each other, therefor we can implement parallel computing.
+\item GA enables us tuning a huge hyperparameter set, even though our project have relative small hyperparameter set.
+\item GA can also work even though the objective function is noisy of stochastic.
+\end{itemize}
+Until now, we have introduced our model with detail. In the next section, we will discuss the results of our numerical simulation.
 \section{Result}
 
 \section{Conclusion}
