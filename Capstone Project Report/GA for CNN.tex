@@ -165,7 +165,7 @@ After crossover process, it is necessary to add some genetic diversity to the of
 \includegraphics[width =7.2in]{mutation.png}
 \caption{The process of mutation, \textbf{CNEW} is gene \textbf{C} after mutation and \textbf{dnew} is gene \textbf{d} after mutation.}
 \end{center}
-\label{fig:pic6}
+\label{fig:pic7}
 \end{figure}
 \subsubsection{Why genetic algorithm}
 There are many advantages of using genetic algorithm for hyperparameter optimization:
@@ -179,7 +179,35 @@ There are many advantages of using genetic algorithm for hyperparameter optimiza
 \end{itemize}
 Until now, we have introduced our model with detail. In the next section, we will discuss the results of our numerical simulation.
 \section{Result}
-
+The first thing we need to do is to test the CNN model which is the inner part of the whole genetic-CNN model. To test the performance of CNN model, we use the given empirical hyperparameter set to train and test the MNIST data set. The MNIST dataset is a well-built dataset that many data scientist use it for training image classification model, therefore we can use the empirical hyperparameter found by others to test whether our CNN model works. If the CNN model can have a good performance with given empirical hyperparameters, we can draw the conclusion that we the CNN part is feasible for MNIST regression, and then we can move to test the performance of genetic part. After using the empirical hyperparameters given as following:\\
+\begin{table}
+\caption{Empirical Hyperparameter for Testing CNN}
+\centering
+\begin{tabular}{l r}
+\hline\hline 
+Hyperparameter & Value \\ [0.5ex]
+\hline
+Size of Filter 1 & $3 \times 3$ \\
+Number of Filter 1 & $32 $\\
+Size of Filter 2 & $3 \times 3$ \\
+Number of Filter 2 & 64 \\
+Size of Max Pooling & $2 \times 2$ \\
+Size of Dense Layer & $128$ \\
+Dropout Rate 1 & $25\%$ \\
+Dropout Rate2 & $50\%$ \\
+\hline
+\end{tabular}
+\label{table:empirical}
+\end{table}
+Notice that in this testing process the epochs for CNN is used as $10$ and the batch size is $128$. Since we do not consider this two parameters as hyperparameter, we just use fixed values for this two parameters. With the given hyperparameters, we actually got very good performance. The value of loss function and the accuracy converge with respect to epochs. We finally get a CNN model with more than $99\%$ accuracy for MNIST dataset! Figure 8 shows the numerical results getting by empirical data.\\
+\begin{figure}
+\begin{center}
+\includegraphics[width =2.8in]{accuracy.png}
+\includegraphics[width =2.8in]{loss.png}
+\caption{The accuracy and loss value for CNN with empirical hyperparameter with respect of epochs}
+\end{center}
+\label{fig:pic8}
+\end{figure}
 \section{Conclusion}
 
 \end{document}
