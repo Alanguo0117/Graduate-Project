@@ -208,6 +208,14 @@ Notice that in this testing process the epochs for CNN is used as $10$ and the b
 \end{center}
 \label{fig:pic8}
 \end{figure}
+The next step is to test the entire model including both CNN and genetic part. In this step the first thing we need to do is to test the entire model with a relatively small initial population and small number of generation to check whether the performance of individuals improved by generations. Here we use population size as four, which means there are four candidates in the initial population. We set the number of parents as two, which means we select two individual for reproducing the next generation. We test three generation with such population size and parents size. Figure 9 shows the result. We can find from Figure 9 that the best individual of each generation has increasing accuracy, but the average accuracy decrease in the third generation. This indicates the genetic algorithm for CNN can generate new population contains at least one individual with better performance than any other individuals in previous generation. Therefore we can find an optimal solution of hyperparameter set by selecting the best individual in each generation. With is small example, we can conclude that the genetic algorithm has good convergence in CNN hyperparameter optimization. We will then test the genetic algorithm with relatively large population and more generation to see whether the model is robust.
+\begin{figure}
+\begin{center}
+\includegraphics[width =5.5in]{3gen_test.png}
+\caption{The accuracy of MNIST test set by each generation}
+\end{center}
+\label{fig:pic9}
+\end{figure}
 \section{Conclusion}
 
 \end{document}
