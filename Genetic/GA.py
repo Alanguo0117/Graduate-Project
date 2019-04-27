@@ -15,12 +15,12 @@ def pop_gen(pop_size):
     #pop_size = 2
     conv1_channel = np.random.randint(low = 2, high = 65, size = pop_size) 
     conv1_ksize = np.random.randint(low = 2, high = 11, size = pop_size)
-    conv2_channel = np.random.randint(low = 16, high = 129, size = pop_size)
+    conv2_channel = np.random.randint(low = 32, high = 129, size = pop_size)
     conv2_ksize = np.random.randint(low = 2, high = 11, size = pop_size)
     pool_size = np.random.randint(low = 2, high = 11, size = pop_size)
     drop_rate1 = np.random.uniform(low = 0.1, high = 0.9, size = pop_size)
     drop_rate2 = np.random.uniform(low = 0.1, high = 0.9, size = pop_size)
-    FC_size = np.random.randint(low = 16, high = 257, size = pop_size)
+    FC_size = np.random.randint(low = 32, high = 257, size = pop_size)
     #batch_size = np.random.randint(low = 1, high = 257, size = pop_size)
     
     pop_matrix = np.array([conv1_channel,conv1_ksize,conv2_channel,conv2_ksize,                         pool_size,FC_size,drop_rate1,drop_rate2])

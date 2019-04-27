@@ -93,7 +93,7 @@ def model(conv1_channel, conv1_ksize, conv2_channel, conv2_ksize, pool_size, FC_
     
     #compile the model
     model.compile(loss = keras.losses.categorical_crossentropy, optimizer = keras.optimizers.Adadelta(), metrics = ['accuracy'])
-    model_log = model.fit(X_train, Y_train, batch_size = 128 , epochs = 3, verbose=1, validation_data=(X_test, Y_test))
+    model_log = model.fit(X_train, Y_train, batch_size = 128 , epochs = 2, verbose=1, validation_data=(X_test, Y_test))
     
     score = model.evaluate(X_test, Y_test, verbose=0)
     gafit = score[1] - score[0]

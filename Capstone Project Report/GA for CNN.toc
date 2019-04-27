@@ -1,0 +1,12 @@
+\contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {section}{\numberline {2}Modeling}{6}
+\contentsline {subsection}{\numberline {2.1}CNN Model}{7}
+\contentsline {subsection}{\numberline {2.2}Genetic Algorithm}{15}
+\contentsline {subsubsection}{\numberline {2.2.1}Generating initial population}{17}
+\contentsline {subsubsection}{\numberline {2.2.2}Calculating fitness \& selecting parents}{18}
+\contentsline {subsubsection}{\numberline {2.2.3}Mating: crossover and mutation}{20}
+\contentsline {paragraph}{Crossover}{20}
+\contentsline {paragraph}{Mutation}{21}
+\contentsline {subsubsection}{\numberline {2.2.4}Why genetic algorithm}{22}
+\contentsline {section}{\numberline {3}Results}{23}
+\contentsline {section}{\numberline {4}Conclusion}{28}

@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 
 \begin{document}
+
 \begin{titlepage}
    \vspace*{\stretch{1.0}}
    \begin{center}
@@ -19,15 +20,19 @@
    \end{center}
    \vspace*{\stretch{2.0}}
 \end{titlepage}
-
 \pagebreak
+
 \setlength{\baselineskip}{10mm}
 \begin{center}
 \LARGE \textbf{Abstract}
 \end{center}
 In this big data era, we developed many efficient and effective ways to analyze our database. Among various techniques, computer vision is a fancy and important one. One of the most significant technique in modern computer vision is convolutional neural network which is a typical method in deep learning. When we process image classification or image recognition, we inevitably encounter a problem of determine the hyperparamters such as the number of Conv channels, the size of filters or the dimension of the dense layers. The process of finding a set of hyperparameters which can improve the performance of convolutional neural network is known as hyperparameter optimization, and it can be also called as tuning. In this Capstone project we are using genetic algorithm for finding an optimal CNN architecture. When the convolutional neural network goes deeper and more complicated, the number of hyperparameters increases dramatically. In order to increase the performance of tuning, we no longer use manual tuning methods like grid search,  instead we use genetic algorithm which is a kind of random search method for tuning, because we want the optimization algorithm searching automatically in a larger hyperparamter space.  To test the performance of genetic tuning, we implement genetic algorithm on MNIST which is a relative small data set include 60,000 examples in training set and 10,000 examples in test set. If this algorithm performs well in this dataset, we will have possibility to implement it on other significative datasets.\pagebreak
+
+\tableofcontents
+\newpage
+
 \section{Introduction}
-Machine learning is the cutting edge technique in modern data science, and it is dominated by deep neural network. These great inventions enable us have much better performance in data analysis. Inspired by the deep neural network architecture, we obtain a rapid development in computer vision. Computer vision is an cutting edge technique making computer to see visual object and extract information from images and videos in the similar way as human does. Image classification and image recognition are the art-of-state field in computer vision, and they have significant contribution to human face recognition, automatic driving and neural style transfer. In this capstone project, we are using convolutional neural network to train MNIST dataset, and this is a kind of image classification. MNIST dataset is a large database of handwritten digits that is commonly used for training various image processing systems. The examples in MNIST dataset are black and white images of human handwritten digits and they are normalized to fit into a $28 \times 28$ pixel bounding box and anti-aliased, which introduced grayscale levels. Hence, we can encode the images into matrices which have all entries equals to one or zero, this problem is transferred as matrix regression. The framework we use to process image classification of MNIST dataset is convolutional neural network (we called CNN or Conv neural network later). Convolutional neural network (CNN, or ConvNet) is a class of deep neural networks, most commonly applied to analyzing visual imagery. Convolutional networks were inspired by biological mechanism in that the connectivity pattern between neurons resembles the organization of the animal visual cortex. The advantage of CNN of image classification is CNN has a weight-sharing feature. Comparing with fully connected neural networks, CNN has conspicuous fewer parameters which makes CNN extract information from dataset at lower computational cost. \\
+Machine learning is the cutting edge technique in modern data science, and it is now dominated by deep neural network. These great inventions enable us have much better performance in data analysis. Inspired by the deep neural network architecture, we obtain a rapid development in computer vision. Computer vision is an cutting edge technique making computer to see visual object and extract information from images and videos in the similar way as human does. Image classification and image recognition are the art-of-state field in computer vision, and they have significant contribution to human face recognition, automatic driving and neural style transfer. In this capstone project, we are using convolutional neural network to train MNIST dataset, and this is a kind of image classification. MNIST dataset is a large database of handwritten digits that is commonly used for training various image processing systems. The examples in MNIST dataset are black and white images of human handwritten digits and they are normalized to fit into a $28 \times 28$ pixel bounding box and anti-aliased, which introduced grayscale levels. Hence, we can encode the images into matrices which have all entries equals to one or zero, this problem is transferred as matrix regression. The framework we use to process image classification of MNIST dataset is convolutional neural network (we called CNN or Conv neural network later). Convolutional neural network (CNN, or ConvNet) is a class of deep neural networks, most commonly applied to analyzing visual imagery. Convolutional networks were inspired by biological mechanism in that the connectivity pattern between neurons resembles the organization of the animal visual cortex. The advantage of CNN of image classification is CNN has a weight-sharing feature. Comparing with fully connected neural networks, CNN has conspicuous fewer parameters which makes CNN extract information from dataset at lower computational cost. \\
 ~\\
 The main purpose of this project is to find an optimal hyperparameter set for CNN framework. In deep learning, a hyperparameter is a parameter whose value is set before the training begins. Different models have different types of hyperparameters, in our CNN model we have filter size, Conv layer channel, pooling size, drop out rate and dense layer size as hyperparameters. Hyperparameters are integers and continuous numbers in our model, leading to mixed-type optimization problems. The choice of hyperparameters can affect the performance of deep neural network significantly. The accuracy and the time required for training process will depend on the hyperparameters we choose. To improve performance of our CNN model, we can apply various tuning methods to find a set of optimal hyperparameters. In this case we are applying genetic algorithm for hyperparameter optimization. Genetic algorithm for CNN tuning is a kind of population based training which is inspired by the process of natural selection. We consider a tuple of hyperparameters as a chromosome of an individual. In our model, we assume every individual has only one chromosome. Since one chromosome represents a tuple of hyperparameters, a gene on the chromosome represents one hyperparameter. If a model has ten hyperparameter, the individual will have one chromosome consists ten genes. For our genetic algorithm, all the individuals in the same generation constitute the whole population. In next section, we will discuss each gene on the chromosome and how genetic algorithm works. For the first generation, we randomize the initial population using the hyperparameter distribution that is pre-defined. In this case, we regulate the distribution of hyperparameter to save computational resource, since genetic algorithm is at high level of computational cost, and we will also discuss later. Compare to using grid search method, for the first generation, we use random method to generate will enable us to explore more combination of hyperparameters. In most cases, we know little about the properties of deep neural ntework model, so that it is hard to directly give empirical combinations which have great performance. Even though grid search method seems more robust, we will not use it here. Figure \ref{fig:pic1} shows difference between grid search and random search.\\
 ~\\
@@ -112,6 +117,7 @@ In the second part, we will discuss how does genetic algorithm work with hyperpa
 
 \subsection{Genetic Algorithm}
 The genetic algorithm of our code works as the outer part of our model. We use genetic algorithm for selecting optimal hyperparameter set for our inner CNN model. Genetic algorithm is inspired by the theory of natural selection by Darwin. Individuals with the better genes will survive in the process in natural selection, the individuals with better genes will have better fitness, therefore they have more chance to reproduce the next generation. As a result, the individuals in next generation will inhere competitive genes from their parents. The population selects better individual by this way. In our genetic algorithm, we consider a set of hyperparameter for CNN as a individual, hence one hyperparameter represents a gene on the individual's chromosome(We assume one individual only has one chromosome). The first step of our algorithm is selecting the candidates with higher fitness from our initial generation, and the selected individuals make up the mating pool for reproducing the next generation. In the next step, the individuals in the mating pool start a mating process to generate the offspring set. The mating process basically follows the same rules as natural creatures: the parents' chromosomes crossover with each other and mutation take place on the new chromosomes. Figure 5 shows the steps for our genetic algorithm. Then we will explain how every step works with detail.\\
+~\\
 \begin{figure}
 \begin{center}
 \includegraphics[width =4.7in]{GA.png}
@@ -131,9 +137,9 @@ Hyperparameter & Value \\ [0.5ex]
 Size of Filter 1 & 2-10 int \\
 Number of Filter 1 & 2-64 int \\
 Size of Filter 2 & 2-10 int \\
-Number of Filter 2 & 32-128 int \\
+Number of Filter 2 & 16-128 int \\
 Size of Max Pooling & 2-10 int \\
-Size of Dense Layer & 63-256 int \\
+Size of Dense Layer & 16-256 int \\
 Dropout Rate 1 & 10\%-90\% \\
 Dropout Rate2 & 10\%-90\% \\
 \hline
@@ -147,10 +153,12 @@ Dropout Rate2 & 10\%-90\% \\
 Once we get our initial population we need to select the competitive candidate for generating the next generation. We should know that the individuals with higher fitness which means the genes of competitive candidates have better performance. In this case, the hyperparamter set with better performance will be selected as parents of the next generation. We evaluate the performance of candidates in two aspects. The first criterion is the accuracy of the test dataset. For judging the performance of a machine learning project, we usually consider the bias and variance of the model. The accuracy of test set can reflect both bias and variance, when the test accuracy is high, we can say both bias and variance is low which means our model is workable and robust. The second aspect is the value of the loss function. As we all know, in an optimization problem, our aim is to minimize the value of loss function(or cost function). We are using  categorical Cross-Entropy loss function as we discuss before. Therefore if we can get smaller value of our categorical Cross-Entropy loss function, we can say the performance of the model is better. In the genetic algorithm we need to design a function which can quantify the level of fitness into a real number. This function is known as the fitness function for genetic algorithm. In this CNN hyperparameter optimization model, we basically want the input of fitness function is one tuple of hyperparameters, and the output is the fitness value. In genetic algorithm, we always want to maximum the fitness value, because the bigger fitness value means the individual is fitter and more competitive. Using accuracy of test set and value of loss function, we define the fitness function as following:
 $$Fitness(V_{hyperparemeter}) =  CNN_{acc} - CNN_{loss}$$
 Where $V_{hyperparemeter}$ is a vector of one set of hyperparameters.  $CNN_{acc}$ is the accuracy of test set and $ CNN_{loss}$ is the value of loss function. It is obvious that a set of hyperparameter with better performance returns a larger fitness function value. Hence, for the selecting process, we need to set a number $m$ which is the number of parents we want to select, and then we rank the row vectors of the initial population with respect to the fitness value. Finally we choose the first $m$ rows as our parents pool.\\
+~\\
 \subsubsection{Mating: crossover and mutation}
 For genetic algorithm, the most import part is mating. This is the process that we use parents pool to generate the new population. In this mating process we applied two genetic operators: crossover and mutation. These two operators typically enable the offspring to share many of the characteristics from their parents. Next, we will explain how crossover and mutation works.
 \paragraph{Crossover}
 In genetic algorithm, crossover can be also called as recombination. This means crossover is used to combine the genetic information of two parents. This operator is inspired by the crossover process which happens during sexual reproduction in biology. The first step in crossover is to designate a crossover point, and then we swap the partial chromosome in the same side of the crossover point. By doing this, the two offspring will carry the genetic information from both of the parents. In general, there are many ways to design the pattern of crossover, the number and the position of crossover points can be variable. In our cases, we do not randomize the number and position of crossover points. We just pick the middle point of each chromosome and exchange the same side of the chromosome, because we only have eight hyperparameters which means the chromosome has eight genes, therefore the middle point of chromosome is enough for the recombination. Figure 6 shows the crossover of our genetic algorithm.\\
+~\\
 \begin{figure}
 \begin{center}
 \includegraphics[width =7.2in]{crossover.png}
@@ -178,7 +186,7 @@ There are many advantages of using genetic algorithm for hyperparameter optimiza
 \item GA can also work even though the objective function is noisy of stochastic.
 \end{itemize}
 Until now, we have introduced our model with detail. In the next section, we will discuss the results of our numerical simulation.
-\section{Result}
+\section{Results}
 The first thing we need to do is to test the CNN model which is the inner part of the whole genetic-CNN model. To test the performance of CNN model, we use the given empirical hyperparameter set to train and test the MNIST data set. The MNIST dataset is a well-built dataset that many data scientist use it for training image classification model, therefore we can use the empirical hyperparameter found by others to test whether our CNN model works. If the CNN model can have a good performance with given empirical hyperparameters, we can draw the conclusion that we the CNN part is feasible for MNIST regression, and then we can move to test the performance of genetic part. After using the empirical hyperparameters given as following:\\
 \begin{table}
 \caption{Empirical Hyperparameter for Testing CNN}
@@ -199,23 +207,48 @@ Dropout Rate2 & $50\%$ \\
 \end{tabular}
 \label{table:empirical}
 \end{table}
-Notice that in this testing process the epochs for CNN is used as $10$ and the batch size is $128$. Since we do not consider this two parameters as hyperparameter, we just use fixed values for this two parameters. With the given hyperparameters, we actually got very good performance. The value of loss function and the accuracy converge with respect to epochs. We finally get a CNN model with more than $99\%$ accuracy for MNIST dataset! Figure 8 shows the numerical results getting by empirical data.\\
+
+
+Notice that in this testing process the epochs for CNN is used as $10$ and the batch size is $128$. Since we do not consider this two parameters as hyperparameter, we just use fixed values for this two parameters. With the given hyperparameters, we actually got very good performance. 
 \begin{figure}
 \begin{center}
-\includegraphics[width =2.8in]{accuracy.png}
-\includegraphics[width =2.8in]{loss.png}
+\includegraphics[width =2.82in]{accuracy.png}
+\includegraphics[width =2.82in]{loss.png}
 \caption{The accuracy and loss value for CNN with empirical hyperparameter with respect of epochs}
 \end{center}
 \label{fig:pic8}
 \end{figure}
-The next step is to test the entire model including both CNN and genetic part. In this step the first thing we need to do is to test the entire model with a relatively small initial population and small number of generation to check whether the performance of individuals improved by generations. Here we use population size as four, which means there are four candidates in the initial population. We set the number of parents as two, which means we select two individual for reproducing the next generation. We test three generation with such population size and parents size. Figure 9 shows the result. We can find from Figure 9 that the best individual of each generation has increasing accuracy, but the average accuracy decrease in the third generation. This indicates the genetic algorithm for CNN can generate new population contains at least one individual with better performance than any other individuals in previous generation. Therefore we can find an optimal solution of hyperparameter set by selecting the best individual in each generation. With is small example, we can conclude that the genetic algorithm has good convergence in CNN hyperparameter optimization. We will then test the genetic algorithm with relatively large population and more generation to see whether the model is robust.
+The value of loss function and the accuracy converge with respect to epochs. We finally get a CNN model with more than $99\%$ accuracy for MNIST dataset! Figure 8 shows the numerical results getting by empirical data.\\
+~\\
+The next step is to test the entire model including both CNN and genetic part. In this step the first thing we need to do is to test the entire model with a relatively small initial population and small number of generation to check whether the performance of individuals improved by generations. Here we use population size as four, which means there are four candidates in the initial population. We set the number of parents as two, which means we select two individual for reproducing the next generation. We test three generation with such population size and parents size. Figure 9 shows the result. We can find from Figure 9 that the best individual of each generation has increasing accuracy, but the average accuracy decrease in the third generation. 
 \begin{figure}
 \begin{center}
-\includegraphics[width =5.5in]{3gen_test.png}
+\includegraphics[width =5.21in]{3gen_test.png}
 \caption{The accuracy of MNIST test set by each generation}
 \end{center}
 \label{fig:pic9}
 \end{figure}
+This indicates the genetic algorithm for CNN can generate new population contains at least one individual with better performance than any other individuals in previous generation. Therefore we can find an optimal solution of hyperparameter set by selecting the best individual in each generation. With is small example, we can conclude that the genetic algorithm has good convergence in CNN hyperparameter optimization. We will then test the genetic algorithm with relatively large population and more generation to see whether the model is robust.\\
+~\\
+We test the GA-CNN model with population size equals to eight, and for each generation, we select four best individuals as parent. These four parents will generate four children, by doing this we can keep the number of population for each generation as constant number. We test the model four times with five generations. 
+\begin{figure}
+\begin{center}
+\includegraphics[width =2.82in]{gen_acc.png}
+\includegraphics[width =2.82in]{gen_loss.png}
+\caption{The accuracy and optimized loss value for CNN with respect of generation}
+\end{center}
+\label{fig:pic10}
+\end{figure}Figure 10 shows the outcome of our model. In \texttt{Test1} and \texttt{Test4}, we trained the CNN model with 2 epochs and in \texttt{Test2} and \texttt{Test3} we trained with 3 epochs. It is obvious that epochs can significantly affect the performance of CNN which vanish all other hyperparameters. For fixed epoch, we can find we have reasonable trend of accuracy and loss. With generation growing, the accuracy goes up and loss goes down. It is import to emphasis that the accuracy and loss are not strictly monotone increasing or decreasing. This is because of the properties of genetic algorithm.Genetic algorithm simulates the biological process of reproduction, so in one generation an individual can have excessively good performance because of heredity and mutation. In this case, the best individual of next generation may have degraded performance. It is also worth mentioning that the starting accuracy is around $98\%$, this is because CNN model works highly cooperative with MNIST dataset. The best model trains MNIST can reach an accuracy at $99.5\%$. We should acknowledge that for deep neural nets, even $0.01\%$ improvement in accuracy is precious when we are tuning over $95\%$ accuracy level.\\
+~\\
+To examine whether genetic algorithm can optimize the performance of different hyperparameter sets, we use Figure 11 which is a box chart to show the fitness value of the whole population of each generation. 
+\begin{figure}
+\begin{center}
+\includegraphics[width =5.21in]{fv.png}
+\caption{The box chart of fitness value of each generation}
+\end{center}
+\label{fig:pic11}
+\end{figure} 
+In this box chart, we can find that the average performance of each generation are improving, which means the performance of the whole population is getting better by generations. Also the variance of fitness value in each generation decreases, and this indicates that the candidates in each population converge to better performance hyperparameter sets. With this box chart, we can conclude that the genetic algorithm works with CNN hyperparameter optimization.
 \section{Conclusion}
-
+In this project we verified the possibility of using genetic algorithm to optimize hyperparameter set of CNN model. We only tested CNN model with MNIST dataset, but it is also possible for us to use genetic algorithm tuning other models or systems. When we come up with a model contains a huge amount of parameters such as some deep neural nets which hold thousands of parameters, genetic algorithm can be an important method for optimizing the model. Notice that every candidate in genetic algorithm is calculating independently with each other, therefore we can use parallel computing to tremendously reduce the runtime for searching optimal solutions. For genetic searching, the fitness function can be extremely important. In this project, we just set one of the simplest fitness function to test the performance. The possibility to improve the convergence exists by using better established fitness function. It is also possible to get better solution by using larger population and more generations if we have sufficient computational resource.
 \end{document}
